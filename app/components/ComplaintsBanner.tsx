@@ -9,14 +9,22 @@ import Image from 'next/image'
 
 import './style.css'
 
-export const ImgContainerDiv = styled.div`
-height: 9px;
+const ImgContainerDiv = styled.div`
+height: auto;
 width: 16px;
 flex: none;
 margin: 0px 8px;
 `
 
-export const StyledSpan = styled.span`
+const ShrinkBoxContainer = styled.div`
+            display: flex;
+            align-items: center;
+            margin: 0px 20px;
+            justify-content: center;
+`
+
+
+const StyledSpan = styled.span`
 display: flex;
 flex: none;`
 
@@ -27,73 +35,102 @@ export const CompaintsBanner = () => {
     const carouselRef1 = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
+        const mm = gsap.matchMedia();
 
-    const mm = gsap.matchMedia();
-
-    mm.add(
-      {
-        desktop: "(min-width: 1440px)",
-        tablet: "(min-width: 1025px) and (max-width: 1439px)",
-        mobile: "(max-width: 375px)",
-      },
-      (ctx) => {
-        // Use ctx.mq instead of ctx.conditions
-        if (ctx.desktop) {
-                  gsap.fromTo(
-            carouselRef1.current,
+        mm.add(
             {
-                xPercent: 0
+                desktop: "(min-width: 1440px)",
+                tablet: "(min-width: 1025px) and (max-width: 1439px)",
+                mobile: "(max-width: 500px)",
             },
-            {
-                xPercent: -5,
-                duration: 2, 
-                repeat: 0,
-                ease: 'none'
-            })
-            gsap.fromTo(
-                shrinkBoxRef.current,
-                {
-                    scale: 1, 
-                },
-                 {
-                    scale: 0,
-                    delay: 1,
-                     duration: 2.40,
-                     ease: 'power4.in',
-                     margin: 0,
-                     x: '+=47'
-                })
-        }
-        if (ctx.tablet) {
-          // tablet animation
-        }
-        if (ctx.mobile) {
-          // mobile animation
-        }
-      }
-    );
+            (ctx) => {
+                // Use ctx.mq instead of ctx.conditions
+                if (ctx?.conditions?.desktop) {
+                    gsap.fromTo(
+                        carouselRef1.current,
+                        {
+                            xPercent: 0
+                        },
+                        {
+                            xPercent: -5,
+                            duration: 2,
+                            repeat: 0,
+                            ease: 'none'
+                        })
+                    gsap.fromTo(
+                        shrinkBoxRef.current,
+                        {
+                            scale: 1,
+                        },
+                        {
+                            scale: 0,
+                            delay: 1,
+                            duration: 2.40,
+                            ease: 'power4.in',
+                            margin: 0,
+                            x: '+=47'
+                        })
+                }
+                if (ctx?.conditions?.tablet) {
+                    // tablet animation
+                }
+                if (ctx?.conditions?.mobile) {
+                    gsap.fromTo(
+                        carouselRef1.current,
+                        {
+                            xPercent: 0
+                        },
+                        {
+                            xPercent: -5,
+                            duration: 2,
+                            repeat: 0,
+                            ease: 'none'
+                        })
+                    gsap.fromTo(
+                        shrinkBoxRef.current,
+                        {
+                            scale: 1,
+                        },
+                        {
+                            scale: 0,
+                            delay: 1,
+                            duration: 2.40,
+                            ease: 'power4.in',
+                            margin: 0,
+                        })
 
-    return () => mm.revert();
+                    gsap.fromTo('.inner-container-complaints', { scale: 1 }, {
+                        scale: 1,
+                        delay: 1,
+                        duration: 2.3,
+                        ease: 'power4.in',
+                        margin: 0,
+                        x: '+=200',
+                        y: "+=60"
+                    })
+                }
+            }
+        );
 
-    }, {scope: shrinkBoxRef})
+        return () => mm.revert();
+
+    },)
     return (
-        <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            margin: '0px 40px'
-        }} ref={shrinkBoxRef}>
+        <ShrinkBoxContainer
+            ref={shrinkBoxRef}
+        >
             <div className='outer_container'>
                 <div
-                 ref={carouselRef1}
-                 className='inner-container-complaints'
-                 >
+                    ref={carouselRef1}
+                    className='inner-container-complaints'
+                >
                     <StyledSpan>DENIALS</StyledSpan>
                     <ImgContainerDiv>
                         <Image
                             src={Illo}
                             height={9}
                             width={16}
-                            alt="Picture of the author"
+                            alt="Illo icon between text"
                         />
                     </ImgContainerDiv>
                     <StyledSpan>LACK OF TRANSPARENCY</StyledSpan>
@@ -102,7 +139,7 @@ export const CompaintsBanner = () => {
                             src={Illo}
                             height={9}
                             width={16}
-                            alt="Picture of the author"
+                            alt="Illo icon between text"
                         />
                     </ImgContainerDiv>
                     <StyledSpan>IMPLEMENTATION HEADACHES</StyledSpan>
@@ -111,12 +148,12 @@ export const CompaintsBanner = () => {
                             src={Illo}
                             height={9}
                             width={16}
-                            alt="Picture of the author"
+                            alt="Illo icon between text"
                         />
                     </ImgContainerDiv>
                     <StyledSpan>UNPREDICATABLE RATE INCREASES</StyledSpan>
                 </div>
             </div>
-        </div>
-            )
+        </ShrinkBoxContainer>
+    )
 }

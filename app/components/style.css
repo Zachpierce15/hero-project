@@ -18,17 +18,36 @@
     align-items: center;
 }
 
+.outer_container,
+.inner-container-complaints {
+    -ms-overflow-style: none;  /* IE/Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.outer_container::-webkit-scrollbar,
+.inner-container-complaints::-webkit-scrollbar {
+    display: no;
+}
+
 .inner-container-complaints::-webkit-scrollbar {
   display: none;
 }
 
   @media (max-width: 1024px) {
     .outer_container {
-        width: 307;
+        max-width: 307;
+        width: 85vw;
     }
   }
     
-  @media (max-width: 375px) {
+  @media (max-width: 500px) {
     .outer_container {
-        width: 327;
-    }}
+        width: 90vw;
+        height: 62px;
+        font-size: 12px;
+        overflow: hidden; /* Add hidden on Y too */
+
+    }
+
+    
+  }

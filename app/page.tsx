@@ -1,25 +1,33 @@
 'use client'
 import styled from 'styled-components'
+import { useWindowSize } from "./hooks/useWindowSize";
 // import {CardCarousel} from './components/CardCarousel'
-import {Title} from './components/Title'
+import { CardAndQuote } from './components/CardsAndQuote'
+import { Title } from './components/Title'
 
 const StyledAppContainer = styled.h1`
 display: flex;
 justify-content: center;
 margin-top: 150px;
+flex-direction: column;
 
-  @media (max-width: 375px) {
+  @media (max-width: 500px) {
         justify-content: unset;
+        margin-top: 100px;
+        
 }
 `
 
 
 export default function Home() {
+  const { width } = useWindowSize()
+
+  const isMobile = width !== undefined && width <= 500
   return (
     <StyledAppContainer>
-    
-      <Title />
-    {/* <CardCarousel /> */}
+
+      <Title isMobile={isMobile} />
+      <CardAndQuote />
     </StyledAppContainer>
   );
 }
