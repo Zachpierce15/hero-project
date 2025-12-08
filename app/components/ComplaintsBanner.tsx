@@ -10,10 +10,10 @@ import Image from 'next/image'
 import './style.css'
 
 const ImgContainerDiv = styled.div`
-height: auto;
-width: 16px;
-flex: none;
-margin: 0px 8px;
+            height: auto;
+            width: 16px;
+            flex: none;
+            margin: 0px 8px;
 `
 
 const ShrinkBoxContainer = styled.div`
@@ -21,12 +21,16 @@ const ShrinkBoxContainer = styled.div`
             align-items: center;
             margin: 0px 20px;
             justify-content: center;
+
+            @media ((min-width: 501px) and (max-width: 1024px)) {
+                margin: unset;
+            }
 `
 
 
 const StyledSpan = styled.span`
-display: flex;
-flex: none;`
+            display: flex;
+            flex: none;`
 
 gsap.registerPlugin(useGSAP)
 
@@ -40,7 +44,7 @@ export const CompaintsBanner = () => {
         mm.add(
             {
                 desktop: "(min-width: 1440px)",
-                tablet: "(min-width: 1025px) and (max-width: 1439px)",
+                tablet: "(min-width: 501px) and (max-width: 1024px)",
                 mobile: "(max-width: 500px)",
             },
             (ctx) => {
@@ -72,7 +76,30 @@ export const CompaintsBanner = () => {
                         })
                 }
                 if (ctx?.conditions?.tablet) {
-                    // tablet animation
+                    gsap.fromTo(
+                        carouselRef1.current,
+                        {
+                            xPercent: 0
+                        },
+                        {
+                            xPercent: -5,
+                            duration: 2,
+                            repeat: 0,
+                            ease: 'none'
+                        })
+                    gsap.fromTo(
+                        shrinkBoxRef.current,
+                        {
+                            scale: 1,
+                        },
+                        {
+                            scale: 0,
+                            delay: 1,
+                            duration: 2.40,
+                            ease: 'power4.in',
+                            margin: 0,
+                            x: '+=47'
+                        })
                 }
                 if (ctx?.conditions?.mobile) {
                     gsap.fromTo(

@@ -1,14 +1,44 @@
 'use client'
 import styled from "styled-components"
 
-const CardAndQuoteContainer = styled.div`
+const InfoCardCouroselAndGetQuoteContainers = styled.div`
     border: 1px solid #CCDDC7;
-    border-radius: 12px;
+
+      @media (max-width: 500px) {
+            width: 85vw;
+            height: 190px;
+      }
+`
+
+const ContainerDiv = styled.div`
+     @media (max-width: 500px) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 65px;
+      }
+`
+
+const StyledParagraph = styled.p`
+     @media (max-width: 500px) {
+            font-size: 14px;
+            margin: 10px 10px 10px 10px;
+      }
 `
 export const CardAndQuote = () => {
+
     return (
-        <CardAndQuoteContainer>
-            <div>Cards carousel</div>
-            <div>Text for businesses with a button</div>
-        </CardAndQuoteContainer>)
+        <ContainerDiv>
+            <InfoCardCouroselAndGetQuoteContainers>Cards carousel</InfoCardCouroselAndGetQuoteContainers>
+            <InfoCardCouroselAndGetQuoteContainers style={{ height: '206px' }}>
+                <StyledParagraph>
+                    Join hundreds of businesses who trust Arlo to offer health insurance that works the way it should:
+                    affordable coverage that puts employees and their doctors in the driving seat.
+                </StyledParagraph>
+                <div>
+                    <div>ELement to swap places</div>
+                    <button onClick={() => console.log('hello')}>Get a Custom Quote Today</button>
+                </div>
+            </InfoCardCouroselAndGetQuoteContainers>
+        </ContainerDiv>)
 }

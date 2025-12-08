@@ -10,14 +10,22 @@ import './style.css'
 gsap.registerPlugin(useGSAP)
 
 const StyledHeaderBeginning = styled.h1`
+display: flex;
 font-family: 'Sohne', sans-serif;
 weight: bold;
 spacing: -3%;
 line-height: 120%;
 font-size: 111px;
-width: fit-content;
+width: 1418px;
+
+@media ((min-width: 501px) and (max-width: 1024px)) {
+        display: unset;
+        text-align: center;
+        width: unset;
+}
 
   @media (max-width: 500px) {
+  display: unset;
         font-size: 48px;
         margin-bottom: 8px;
         text-align: center;
@@ -33,6 +41,11 @@ line-height: 120%;
 font-size: 111px;
 width: fit-content;
 
+@media ((min-width: 501px) and (max-width: 1024px)) {
+    text-align: center;
+    width: fit-content;
+}
+
 @media (max-width: 500px) {
     font-size: 48px;
     text-align: center;
@@ -45,10 +58,29 @@ const StyledHeaderContainer = styled.div`
     flex-direction: column;
     flex-wrap: wrap;
     color: #153E2A;
+    word-spacing: -3%
+    `
+
+const StyledAnimationContainer = styled.div`
+        display: flex;
+        flex-direction: row;
+
+        @media ((min-width: 501px) and (max-width: 613px)) {
+            flex-direction: column;
+        }
     `
 
 const StyledMiddleDiv = styled.div`
         
+@media ((min-width: 501px) and (max-width: 1024px)) {
+    text-align: center;
+    width: 100vw
+}
+
+@media ((min-width: 501px) and (max-width: 613px)) {
+display: flex;
+flex-direction: column;
+}
 @media (max-width: 500px) {
     text-align: center;
 }
@@ -68,7 +100,7 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
         mm.add(
             {
                 desktop: "(min-width: 1440px)",
-                tablet: "(min-width: 1025px) and (max-width: 1439px)",
+                tablet: "(min-width: 501px) and (max-width: 1024px)",
                 mobile: "(max-width: 500px)",
             },
             (ctx) => {
@@ -93,13 +125,18 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
                 if (ctx?.conditions?.tablet) {
                     // 1025px - 1439px (smaller movement)
                     const tl = gsap.timeline();
-                    tl.fromTo(
-                        ".middle",
-                        { scale: 2, opacity: 1 },
-                        { scale: 0, opacity: 0, duration: 0.8, ease: "power1.inOut" }
+                    tl.to('#left', { x: '+=185', duration: 2.54, ease: 'power4.in', delay: 1 },
+                        0
+                    ).to('#right', { x: '-=100', duration: 2.54, ease: 'power4.in', delay: 1 },
+                        0
+                    );
+
+                    tl.to(["#left", "#right", '#other'],
+                        {
+                            color: '#00B684',
+                            duration: .4
+                        }
                     )
-                        .to(".left", { x: "+=40", duration: 0.8 }, 0)
-                        .to(".right", { x: "-=40", duration: 0.8 }, 0);
                 }
 
                 if (ctx?.conditions?.mobile) {
@@ -133,7 +170,7 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
                         </StyledMiddleDiv>
                         <StyledMiddleDiv>
                             <span style={{ marginRight: '16px' }}>that</span>
-                            <span style={{ fontStyle: "italic" }} id='left'>doesn&apos;t get</span>
+                            <span id='left'>doesn&apos;t get</span>
                         </StyledMiddleDiv>
                     </StyledHeaderBeginning>
                     <div>
@@ -149,15 +186,15 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
                             <span style={{ marginLeft: '5px' }}>Health insurance</span>
                         </StyledMiddleDiv>
                         <StyledMiddleDiv>
-                            <span style={{ marginRight: '16px' }}>that</span>
-                            <span style={{ fontStyle: "italic" }} id='left'>doesn&apos;t</span>
+                            <span style={{ marginRight: '20px', marginLeft: '20px' }}>that</span>
+                            <span id='other'>doesn&apos;t</span>
                         </StyledMiddleDiv>
                     </StyledHeaderBeginning>
-                    <div>
-                        <StyledHeader>get in</StyledHeader>
+                    <StyledAnimationContainer>
+                        <StyledHeader id='left'>get in</StyledHeader>
                         <CompaintsBanner />
-                        <StyledHeader id='bottom'>the way.</StyledHeader>
-                    </div>
+                        <StyledHeader id='right'>the way.</StyledHeader>
+                    </StyledAnimationContainer>
 
                 </StyledHeaderContainer>
             )}

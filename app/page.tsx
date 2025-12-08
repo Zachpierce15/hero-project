@@ -13,7 +13,7 @@ flex-direction: column;
 
   @media (max-width: 500px) {
         justify-content: unset;
-        margin-top: 100px;
+        margin-top: 85px;
         
 }
 `
@@ -25,8 +25,9 @@ export default function Home() {
   const isMobile = width !== undefined && width <= 500
   return (
     <StyledAppContainer>
-
-      <Title isMobile={isMobile} />
+      <div>
+        <Title isMobile={isMobile} />
+      </div>
       <CardAndQuote />
     </StyledAppContainer>
   );
