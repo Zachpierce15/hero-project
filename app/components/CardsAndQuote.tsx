@@ -1,8 +1,9 @@
 'use client'
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
 import styled from "styled-components"
+import { CardCarousel } from './CardCarousel';
 
 gsap.registerPlugin(Flip);
 
@@ -10,8 +11,24 @@ const InfoCardCouroselAndGetQuoteContainers = styled.div`
     border: 1px solid #CCDDC7;
 
     @media (max-width: 500px) {
-        width: 85vw;
+        display: flex;
+        flex-direction: column;
         height: 190px;
+        justify-content: space-between;
+        width: 85vw;
+        align-items: center;
+    }
+`
+
+const InfoCardCouroselContainer = styled.div`
+    border: 1px solid #CCDDC7;
+
+    @media (max-width: 500px) {
+        display: flex;
+        overflow: hidden;
+        height: 190px;
+        width: 85vw;
+        align-items: center;
     }
 `
 
@@ -25,20 +42,63 @@ const ContainerDiv = styled.div`
 `
 
 const StyledParagraph = styled.p`
+    color: #153E2A;
     @media (max-width: 500px) {
         font-size: 14px;
         margin: 10px 10px 10px 10px;
     }
 `
 
+const StyledButton = styled.button`
+    border: 1px solid #30715D;
+    border-radius: 24px;
+    color: #30715D;
+    background-color: #FBFAF6;
+    height: 50px;
+    font-size: 16px;
+    width: -webkit-fill-available;
+    transition: border-color 1s ease, color 1s ease;
+    z-index: 2;
+    position: relative;
+    
+    &:hover {
+        border-color: #00B684;
+        color: #00B684;
+        cursor: pointer;
+    }
+`
+
+const ImgContainerDiv = styled.div`
+    height: 50px;
+    width: 50px;
+    flex: none;
+    margin: 0px 8px;
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+`
+
 const StyledFlipContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
+    margin: 10px 10px 10px 10px;
+    width: 300px;
+
+    &:hover ${StyledButton} {
+        border-color: #00B684;
+        cursor: pointer;
+        color: #00B684;
+    }
+
+        &:hover ${ImgContainerDiv} {
+        cursor: pointer;
+    }
 `
 
 export const CardAndQuote = () => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const buttonRef = useRef<HTMLButtonElement>(null);
+    const buttonRef = useRef<HTMLDivElement>(null);
+    const imgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
         const button = buttonRef.current;
@@ -66,23 +126,78 @@ export const CardAndQuote = () => {
         };
 
         button.addEventListener('mouseenter', doFlip);
+        button.addEventListener('mouseleave', doFlip);
 
         return () => {
             button.removeEventListener('mouseenter', doFlip);
+            button.removeEventListener('mouseleave', doFlip);
         };
     }, []);
 
+    const handleHover = (isHovering: boolean) => {
+        setTimeout(() => {
+            if (imgRef.current) {
+                imgRef.current.src = isHovering
+                    ? '/ArrowRightHover.svg'
+                    : '/ArrowRight.svg';
+            }
+        }, 400);
+    };
+
+    const handleClick = () => {
+        console.log("This is working");
+
+        // Animate arrow: slide right, disappear, reappear left, slide back
+        if (imgRef.current) {
+            gsap.timeline()
+                // Slide right and fade out
+                .to(imgRef.current, {
+                    x: 20,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power2.in'
+                }, 0)
+                // Reset position to left (no animation visible)
+                .set(imgRef.current, {
+                    x: -20,
+                    opacity: 1
+                }, 0.3)
+                // Slide back to original position
+                .to(imgRef.current, {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                }, 0.3);
+        }
+    };
+
     return (
         <ContainerDiv>
-            <InfoCardCouroselAndGetQuoteContainers>Cards carousel</InfoCardCouroselAndGetQuoteContainers>
+            <InfoCardCouroselContainer><CardCarousel /></InfoCardCouroselContainer>
             <InfoCardCouroselAndGetQuoteContainers style={{ height: '206px' }} ref={containerRef}>
                 <StyledParagraph>
                     Join hundreds of businesses who trust Arlo to offer health insurance that works the way it should:
                     affordable coverage that puts employees and their doctors in the driving seat.
                 </StyledParagraph>
-                <StyledFlipContainer>
-                    <div className='event'>Element to swap places</div>
-                    <button className='event' ref={buttonRef}>Get a Custom Quote Today</button>
+                <StyledFlipContainer
+                    ref={buttonRef}
+                    onMouseEnter={() => handleHover(true)}
+                    onMouseLeave={() => handleHover(false)}
+                    onClick={handleClick}
+                >
+                    <ImgContainerDiv className='event'>
+                        {/* eslint-disable-next-line @next/next/no-img-element*/}
+                        <img
+                            ref={imgRef}
+                            src={'/ArrowRight.svg'}
+                            height={50}
+                            width={50}
+                            alt="animated arrow"
+                            style={{ width: '50px', height: '50px' }}
+                        />
+                    </ImgContainerDiv>
+                    <StyledButton className='event'>Get a Custom Quote Today</StyledButton>
                 </StyledFlipContainer>
             </InfoCardCouroselAndGetQuoteContainers>
         </ContainerDiv>

@@ -30,7 +30,9 @@ const ShrinkBoxContainer = styled.div`
 
 const StyledSpan = styled.span`
             display: flex;
-            flex: none;`
+            flex: none;
+            font-size: 12px;
+            `
 
 gsap.registerPlugin(useGSAP)
 
@@ -48,7 +50,6 @@ export const CompaintsBanner = () => {
                 mobile: "(max-width: 500px)",
             },
             (ctx) => {
-                // Use ctx.mq instead of ctx.conditions
                 if (ctx?.conditions?.desktop) {
                     gsap.fromTo(
                         carouselRef1.current,
@@ -154,7 +155,7 @@ export const CompaintsBanner = () => {
                     <StyledSpan>DENIALS</StyledSpan>
                     <ImgContainerDiv>
                         <Image
-                            src={Illo}
+                            src={'/Illo.png'}
                             height={9}
                             width={16}
                             alt="Illo icon between text"
@@ -163,7 +164,7 @@ export const CompaintsBanner = () => {
                     <StyledSpan>LACK OF TRANSPARENCY</StyledSpan>
                     <ImgContainerDiv>
                         <Image
-                            src={Illo}
+                            src={'/Illo.png'}
                             height={9}
                             width={16}
                             alt="Illo icon between text"
@@ -172,7 +173,7 @@ export const CompaintsBanner = () => {
                     <StyledSpan>IMPLEMENTATION HEADACHES</StyledSpan>
                     <ImgContainerDiv>
                         <Image
-                            src={Illo}
+                            src={'/Illo.png'}
                             height={9}
                             width={16}
                             alt="Illo icon between text"
