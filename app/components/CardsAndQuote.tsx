@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
 import styled from "styled-components"
 import { CardCarousel } from './CardCarousel';
+import GsapSlider from './NewComp';
 
 gsap.registerPlugin(Flip);
 
@@ -152,14 +153,14 @@ export const CardAndQuote = () => {
             gsap.timeline()
                 // Slide right and fade out
                 .to(imgRef.current, {
-                    x: 20,
+                    x: 40,
                     opacity: 0,
                     duration: 0.3,
                     ease: 'power2.in'
                 }, 0)
                 // Reset position to left (no animation visible)
                 .set(imgRef.current, {
-                    x: -20,
+                    x: -40,
                     opacity: 1
                 }, 0.3)
                 // Slide back to original position
@@ -174,7 +175,7 @@ export const CardAndQuote = () => {
 
     return (
         <ContainerDiv>
-            <InfoCardCouroselContainer><CardCarousel /></InfoCardCouroselContainer>
+            <InfoCardCouroselContainer><GsapSlider /></InfoCardCouroselContainer>
             <InfoCardCouroselAndGetQuoteContainers style={{ height: '206px' }} ref={containerRef}>
                 <StyledParagraph>
                     Join hundreds of businesses who trust Arlo to offer health insurance that works the way it should:
