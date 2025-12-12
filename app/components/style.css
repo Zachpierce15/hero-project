@@ -25,13 +25,13 @@
 
 .inner_container_new {
     display: flex;
-    gap: 2rem;
+    gap: 4rem;
     padding-right: 1rem;
 }
 
 .carousel_image_new {
-    width: 198px;
-    height: auto;
+    width: 395px;
+    height: 195px;
     flex-shrink: 0;
 }
 
@@ -50,28 +50,6 @@
   display: none;
 }
 
-
-
-  @media (max-width: 1440px) {
-    .carousel_image_new {
-        width: 395px;
-        height: 195px;
-        flex-shrink: 0;
-    }
-
-    .inner_container_new {
-        gap: 4rem;
-    }
-
-    .inner-container-complaints {
-    display: flex;
-    height: 79px;
-    color: #D87906;
-    gap: 1rem;
-    flex-wrap: nowrap;
-    align-items: center;
-}
-  }
 
   @media ((min-width: 1025px) and (max-width: 1378px)) {
         .outer_container {
@@ -94,7 +72,7 @@
         flex-direction: column;
         align-items: center;
         padding-bottom: 1rem;
-
+        gap: 2rem;
     }
 
     .carousel_image_new {
@@ -123,6 +101,7 @@
     .inner_container_new {
         flex-direction: unset;
         align-items: unset;
+        gap: 2rem;
     }
 
     .carousel_image_new {

@@ -26,13 +26,13 @@ export const CardCarousel = () => {
 
         mm.add(
             {
-                fullScreen: "(max-width: 1440px)",
+                fullscreen: "(min-width: 1440px)",
                 desktop: "(min-width: 1023px) and (max-width: 1440px)",
                 tablet: "(min-width: 501px) and (max-width: 1024px)",
                 mobile: "(max-width: 500px)",
             },
             (ctx) => {
-                if (ctx?.conditions?.desktop) {
+                if (ctx?.conditions?.desktop || ctx?.conditions?.fullscreen) {
                     const track1 = carouselRef1New.current;
                     const track2 = carouselRef2New.current;
                     if (!track1 || !track2) return;

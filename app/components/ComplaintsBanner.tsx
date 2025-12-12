@@ -45,12 +45,13 @@ export const CompaintsBanner = () => {
 
         mm.add(
             {
+                fullscreen: "(min-width: 1440px)",
                 desktop: "(min-width: 1025px) and (max-width: 1440px)",
                 tablet: "(min-width: 501px) and (max-width: 1024px)",
                 mobile: "(max-width: 500px)",
             },
             (ctx) => {
-                if (ctx?.conditions?.desktop) {
+                if (ctx?.conditions?.desktop || ctx?.conditions?.fullscreen) {
                     gsap.fromTo(
                         carouselRef1.current,
                         {

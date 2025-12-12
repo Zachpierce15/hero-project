@@ -115,6 +115,7 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
 
         mm.add(
             {
+                fullscreen: "(min-width: 1440px)",
                 weirdSpot: "(min-width: 1025px) and (max-width: 1378px)",
                 desktop: "(min-width: 1025px) and (max-width: 1440px)",
                 tablet: "(min-width: 1000px) and (max-width: 1024px)",
@@ -122,7 +123,7 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
             },
             (ctx) => {
 
-                if (ctx?.conditions?.desktop) {
+                if (ctx?.conditions?.desktop || ctx?.conditions?.fullscreen) {
                     if (ctx?.conditions?.weirdSpot) {
                         const tl = gsap.timeline();
 

@@ -10,14 +10,12 @@ gsap.registerPlugin(Flip);
 const InfoCardCouroselAndGetQuoteContainers = styled.div`
     border: 1px solid #CCDDC7;
 
-    @media (max-width: 1440px) {
-        width: 689px;
-        height: 328px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+    width: 689px;
+    height: 328px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     @media (min-width: 501px) and (max-width: 1024px) {
         width: 40vw;
@@ -41,24 +39,21 @@ const InfoCardCouroselAndGetQuoteContainers = styled.div`
 
 const InfoCardCouroselContainer = styled.div`
     border: 1px solid #CCDDC7;
-
-    @media (max-width: 1440px) {
-        width: 687px;
-        height: 328px;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    display: flex;
+    width: 687px;
+    height: 328px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
 
     @media (min-width: 501px) and (max-width: 1024px) {
         width: 56vw;
         height: 600px;
-        overflow: hidden;
+        align-items: unset;
     } 
+
     @media (max-width: 500px) {
         display: flex;
-        overflow: hidden;
         height: 190px;
         width: 85vw;
         align-items: center;
@@ -66,24 +61,24 @@ const InfoCardCouroselContainer = styled.div`
 `
 
 const ContainerDiv = styled.div`
-    @media (max-width: 1440px) {
        display: flex;
         flex-direction: row-reverse;
         align-items: center;
         justify-content: center;
         margin-top: 65px;
-    }
 
     @media (min-width: 501px) and (max-width: 1024px) {
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
+        justify-content: unset;
         margin-top: 65px;
     }
 
     @media (max-width: 500px) {
         display: flex;
         flex-direction: column;
+        justify-content: unset;
         align-items: center;
         margin-top: 65px;
     }
@@ -91,16 +86,9 @@ const ContainerDiv = styled.div`
 
 const StyledParagraph = styled.p`
     color: #153E2A;
-
-    @media (max-width: 1440px) {
-        font-size: 24px;
-        margin: 23px;
-    }
-
-    @media (min-width: 501px) and (max-width: 1024px) {
-        font-size: 24px;
-        margin: 23px;
-    }
+    font-size: 24px;
+    margin: 23px;
+    
     @media (max-width: 500px) {
         font-size: 14px;
         margin: 10px;

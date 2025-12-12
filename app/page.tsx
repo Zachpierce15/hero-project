@@ -5,6 +5,18 @@ import { useWindowSize } from "./hooks/useWindowSize";
 import { CardAndQuote } from './components/CardsAndQuote'
 import { Title } from './components/Title'
 
+const StyledPageContainer = styled.div`
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+
+  @media (max-width: 500px) {
+    padding: 0 16px;
+  }
+`
+
 const StyledAppContainer = styled.h1`
 display: flex;
 justify-content: center;
@@ -24,11 +36,13 @@ export default function Home() {
 
   const isMobile = width !== undefined && width <= 999
   return (
-    <StyledAppContainer>
-      <div>
-        <Title isMobile={isMobile} />
-      </div>
-      <CardAndQuote />
-    </StyledAppContainer>
+    <StyledPageContainer>
+      <StyledAppContainer>
+        <div>
+          <Title isMobile={isMobile} />
+        </div>
+        <CardAndQuote />
+      </StyledAppContainer>
+    </StyledPageContainer>
   );
 }
