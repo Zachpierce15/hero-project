@@ -4,12 +4,30 @@ import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
 import styled from "styled-components"
 import { CardCarousel } from './CardCarousel';
-import GsapSlider from './NewComp';
 
 gsap.registerPlugin(Flip);
 
 const InfoCardCouroselAndGetQuoteContainers = styled.div`
     border: 1px solid #CCDDC7;
+
+    @media (max-width: 1440px) {
+        width: 40vw;
+        height: 600px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    @media (min-width: 501px) and (max-width: 1024px) {
+        width: 40vw;
+        height: 600px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    } 
 
     @media (max-width: 500px) {
         display: flex;
@@ -24,6 +42,17 @@ const InfoCardCouroselAndGetQuoteContainers = styled.div`
 const InfoCardCouroselContainer = styled.div`
     border: 1px solid #CCDDC7;
 
+    @media (max-width: 1440px) {
+        width: 56vw;
+        height: 600px;
+        overflow: hidden;
+    }
+
+    @media (min-width: 501px) and (max-width: 1024px) {
+        width: 56vw;
+        height: 600px;
+        overflow: hidden;
+    } 
     @media (max-width: 500px) {
         display: flex;
         overflow: hidden;
@@ -34,6 +63,20 @@ const InfoCardCouroselContainer = styled.div`
 `
 
 const ContainerDiv = styled.div`
+    @media (max-width: 1440px) {
+       display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        margin-top: 65px;
+    }
+
+    @media (min-width: 501px) and (max-width: 1024px) {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        margin-top: 65px;
+    }
+
     @media (max-width: 500px) {
         display: flex;
         flex-direction: column;
@@ -44,9 +87,14 @@ const ContainerDiv = styled.div`
 
 const StyledParagraph = styled.p`
     color: #153E2A;
+
+    @media (min-width: 501px) and (max-width: 1024px) {
+        font-size: 24px;
+        margin: 23px;
+    }
     @media (max-width: 500px) {
         font-size: 14px;
-        margin: 10px 10px 10px 10px;
+        margin: 10px;
     }
 `
 
@@ -91,8 +139,8 @@ const StyledFlipContainer = styled.div`
         color: #00B684;
     }
 
-        &:hover ${ImgContainerDiv} {
-        cursor: pointer;
+    &:hover ${ImgContainerDiv} {
+    cursor: pointer;
     }
 `
 
@@ -148,22 +196,21 @@ export const CardAndQuote = () => {
     const handleClick = () => {
         console.log("This is working");
 
-        // Animate arrow: slide right, disappear, reappear left, slide back
         if (imgRef.current) {
             gsap.timeline()
-                // Slide right and fade out
+
                 .to(imgRef.current, {
                     x: 40,
                     opacity: 0,
                     duration: 0.3,
                     ease: 'power2.in'
                 }, 0)
-                // Reset position to left (no animation visible)
+
                 .set(imgRef.current, {
                     x: -40,
                     opacity: 1
                 }, 0.3)
-                // Slide back to original position
+
                 .to(imgRef.current, {
                     x: 0,
                     opacity: 1,
@@ -175,8 +222,8 @@ export const CardAndQuote = () => {
 
     return (
         <ContainerDiv>
-            <InfoCardCouroselContainer><GsapSlider /></InfoCardCouroselContainer>
-            <InfoCardCouroselAndGetQuoteContainers style={{ height: '206px' }} ref={containerRef}>
+            <InfoCardCouroselContainer><CardCarousel /></InfoCardCouroselContainer>
+            <InfoCardCouroselAndGetQuoteContainers ref={containerRef}>
                 <StyledParagraph>
                     Join hundreds of businesses who trust Arlo to offer health insurance that works the way it should:
                     affordable coverage that puts employees and their doctors in the driving seat.

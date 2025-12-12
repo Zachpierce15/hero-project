@@ -22,7 +22,7 @@ flex-direction: column;
 export default function Home() {
   const { width } = useWindowSize()
 
-  const isMobile = width !== undefined && width <= 500
+  const isMobile = width !== undefined && width <= 999
   return (
     <StyledAppContainer>
       <div>

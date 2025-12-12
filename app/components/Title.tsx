@@ -41,9 +41,15 @@ line-height: 120%;
 font-size: 111px;
 width: fit-content;
 
-@media ((min-width: 501px) and (max-width: 1024px)) {
+@media ((min-width: 1000px) and (max-width: 1024px)) {
     text-align: center;
     width: fit-content;
+}
+
+@media((min-width: 501px) and (max-width: 999px)) {
+    width: unset;
+    text-align: center;
+
 }
 
 @media (max-width: 500px) {
@@ -100,8 +106,8 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
         mm.add(
             {
                 desktop: "(min-width: 1440px)",
-                tablet: "(min-width: 501px) and (max-width: 1024px)",
-                mobile: "(max-width: 500px)",
+                tablet: "(min-width: 1000px) and (max-width: 1024px)",
+                mobile: "(max-width: 999px)",
             },
             (ctx) => {
 
@@ -123,7 +129,7 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
                 }
 
                 if (ctx?.conditions?.tablet) {
-                    // 1025px - 1439px (smaller movement)
+                    // 1025px - 1439px(smaller movement)
                     const tl = gsap.timeline();
                     tl.to('#left', { x: '+=185', duration: 2.54, ease: 'power4.in', delay: 1 },
                         0
@@ -162,6 +168,7 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
 
     return (
         <div>
+            {/** The isMobile check is here because the html structure changes between mobile and tablet/desktop **/}
             {_isMobile ? (
                 <StyledHeaderContainer ref={container}>
                     <StyledHeaderBeginning id='beginning-of-title-header'>

@@ -1,110 +1,212 @@
-'use client'
+'use client';
+
 import { useRef } from "react";
-import gsap from 'gsap';
+import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import styled from "styled-components"
-
-
-const StyledCarouselContainerOuter = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    width: 100%;
-`
-
-
-const StyledCarouselContainerInner = styled.div`
-    display: flex;
-    gap: 0;
-    
-    @media (max-width: 500px) {
-        gap: 2rem;
-        padding-right: 10px;
-    }
-`
-
-
-const StyledImgTag = styled.img`
-    width: 198px;
-    height: 98px;
-    flex-shrink: 0;
-`
-
-
-const cards = [
-    './ProfilePic1.svg',
-    './ProfilePic2.svg',
-    './ProfilePic3.svg',
-    './ProfilePic4.svg',
-]
-
 
 gsap.registerPlugin(useGSAP);
 
+const images = [
+    "./ProfilePic1.svg",
+    "./ProfilePic2.svg",
+    "./ProfilePic3.svg",
+    "./ProfilePic4.svg",
+    "./ProfilePic1.svg",
+    "./ProfilePic2.svg",
+    "./ProfilePic3.svg",
+    "./ProfilePic4.svg",
+];
 
 export const CardCarousel = () => {
-    const carouselRef = useRef<HTMLDivElement>(null);
-    const SLIDE_WIDTH = 198;
-    const START_INDEX = 1;
-    const PAUSE_DURATION = 3;
-    const SCALE_DURATION = 2;
-
+    const carouselRef1New = useRef<HTMLDivElement>(null);
+    const carouselRef2New = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-        if (!carouselRef.current) return;
+        const mm = gsap.matchMedia();
 
+        mm.add(
+            {
+                desktop: "(min-width: 1440px)",
+                tablet: "(min-width: 501px) and (max-width: 1024px)",
+                mobile: "(max-width: 500px)",
+            },
+            (ctx) => {
+                // DESKTOP: simple seamless scroll (horizontal, unchanged)
+                if (ctx?.conditions?.desktop) {
+                    gsap.fromTo(
+                        carouselRef1New.current,
+                        { xPercent: 0 },
+                        {
+                            xPercent: -100,
+                            duration: 10,
+                            repeat: -1,
+                            ease: "none",
+                        }
+                    );
 
-        const slides = carouselRef.current.querySelectorAll('img') as NodeListOf<HTMLElement>;
-        if (slides.length === 0) return;
+                    gsap.fromTo(
+                        carouselRef2New.current,
+                        { xPercent: 0 },
+                        {
+                            xPercent: -100,
+                            duration: 10,
+                            repeat: -1,
+                            ease: "none",
+                        }
+                    );
+                }
 
-        const containerWidth = carouselRef.current.parentElement!.offsetWidth;
+                if (ctx?.conditions?.tablet) {
+                    const track1 = carouselRef1New.current;
+                    const track2 = carouselRef2New.current;
+                    if (!track1 || !track2) return;
 
-        // Set initial position to second image centered
-        const initialTargetX = -(START_INDEX * SLIDE_WIDTH) + (containerWidth / 2) - (SLIDE_WIDTH / 2);
-        gsap.set(carouselRef.current, { x: initialTargetX });
-        gsap.set(slides, { scale: 1 });
+                    const slides1 = gsap.utils.toArray<HTMLElement>(
+                        track1.querySelectorAll(".carousel_image_new")
+                    );
+                    const slides2 = gsap.utils.toArray<HTMLElement>(
+                        track2.querySelectorAll(".carousel_image_new")
+                    );
 
+                    if (!slides1.length || !slides2.length) return;
 
-        const tl = gsap.timeline({ repeat: -1 });
+                    gsap.set([track1, track2], { y: 0 });
 
+                    const tl = gsap.timeline({
+                        repeat: -1,
+                        defaults: { ease: "none" },
+                    });
 
-        slides.forEach((slide, index) => {
-            // Calculate position to center the slide in the container
-            const targetX = -(index * SLIDE_WIDTH) + (containerWidth / 2) - (SLIDE_WIDTH / 2);
+                    const outer = track1.parentElement as HTMLElement;
+                    const outerHeight = outer.getBoundingClientRect().height;
+                    const slideHeight =
+                        slides1[0]?.getBoundingClientRect().height || 0;
+                    const gap = 32; // 2rem from CSS
 
+                    const positions: number[] = slides1.map((_, i) => {
+                        return i * (slideHeight + gap);
+                    });
 
-            // Move to slide
-            tl.to(carouselRef.current, { x: targetX, duration: 0.8, ease: 'power2.inOut' }, index === 0 ? 0 : '>');
+                    for (let index = 1; index < slides1.length; index++) {
+                        const img1 = slides1[index];
+                        const img2 = slides2[index];
+                        const slidePosition = positions[index];
+                        const slideCenter = slidePosition + slideHeight / 2;
+                        const targetY = outerHeight / 2 - slideCenter;
 
+                        tl.to([track1, track2], {
+                            y: targetY,
+                            duration: 1.5,
+                            ease: "power2.inOut",
+                        });
 
-            // Scale center image (happens during pause)
-            tl.to(slide, { scale: 1.2, duration: 0.5, ease: 'back.out' }, '>');
-            tl.to(slide, { scale: 1, duration: 0.5, ease: 'back.inOut' });
+                        tl.to({}, { duration: 0.4 });
 
+                        tl.to([img1, img2], {
+                            scale: 1.24,
+                            duration: 2,
+                            ease: "power2.out",
+                        });
 
-            // Pause (remaining time after scale animation)
-            tl.to({}, { duration: 1 });
-        });
+                        tl.to([img1, img2], {
+                            scale: 1,
+                            duration: 2,
+                            ease: "power2.in",
+                        });
 
+                        tl.to({}, { duration: 0.6 });
+                    }
+                }
 
-        // Continue to first image and loop seamlessly
-        const firstSlide = slides[0];
-        const firstTargetX = -(0 * SLIDE_WIDTH) + (containerWidth / 2) - (SLIDE_WIDTH / 2);
-        tl.to(carouselRef.current, { x: firstTargetX, duration: 0.8, ease: 'power2.inOut' }, '>');
-        tl.to(firstSlide, { scale: 1.2, duration: 0.5, ease: 'back.out' }, '>');
-        tl.to(firstSlide, { scale: 1, duration: 0.5, ease: 'back.inOut' });
-        tl.to({}, { duration: 1 });
-    })
+                if (ctx?.conditions?.mobile) {
+                    const track1 = carouselRef1New.current;
+                    const track2 = carouselRef2New.current;
+                    if (!track1 || !track2) return;
 
+                    const slides1 = gsap.utils.toArray<HTMLElement>(
+                        track1.querySelectorAll(".carousel_image_new")
+                    );
+                    const slides2 = gsap.utils.toArray<HTMLElement>(
+                        track2.querySelectorAll(".carousel_image_new")
+                    );
+
+                    if (!slides1.length || !slides2.length) return;
+
+                    const tl = gsap.timeline({
+                        repeat: -1,
+                        defaults: { ease: "none" },
+                    });
+
+                    const outer = track1.parentElement as HTMLElement;
+                    const outerWidth = outer.getBoundingClientRect().width;
+
+                    for (let index = 1; index < slides1.length; index++) {
+                        const img1 = slides1[index];
+                        const img2 = slides2[index];
+
+                        const slideLeft = img1.offsetLeft;
+                        const slideWidth = img1.getBoundingClientRect().width;
+                        const slideCenter = slideLeft + slideWidth / 2;
+
+                        const targetX = outerWidth / 2 - slideCenter;
+
+                        tl.to([track1, track2], {
+                            x: targetX,
+                            duration: 1.5,
+                            ease: "power2.inOut",
+                        });
+
+                        tl.to({}, { duration: 0.4 });
+
+                        tl.to([img1, img2], {
+                            scale: 1.24,
+                            duration: 2,
+                            ease: "power2.out",
+                        });
+
+                        tl.to([img1, img2], {
+                            scale: 1,
+                            duration: 2,
+                            ease: "power2.in",
+                        });
+
+                        tl.to({}, { duration: 0.6 });
+                    }
+                }
+            }
+        );
+
+        return () => mm.revert();
+    }, []);
 
     return (
-        <StyledCarouselContainerOuter>
-            <StyledCarouselContainerInner ref={carouselRef}>
-                {cards.map((item, idx) => (
-                    <StyledImgTag src={item} key={idx} />
-                ))}
-            </StyledCarouselContainerInner>
-        </StyledCarouselContainerOuter>
-    )
-}
+        <div className="outer_container_new">
+            <div ref={carouselRef1New} className="inner_container_new">
+                {images.map((image, index) => {
+                    return (
+                        <img
+                            src={image}
+                            key={index}
+                            className="carousel_image_new"
+                        />
+                    );
+                })}
+            </div>
+            <div
+                ref={carouselRef2New}
+                className="inner_container_new"
+                aria-hidden
+            >
+                {images.map((image, index) => {
+                    return (
+                        <img
+                            src={image}
+                            key={index}
+                            className="carousel_image_new"
+                        />
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
