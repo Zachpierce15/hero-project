@@ -26,34 +26,73 @@ export const CardCarousel = () => {
 
         mm.add(
             {
-                desktop: "(min-width: 1440px)",
+                fullScreen: "(max-width: 1440px)",
+                desktop: "(min-width: 1023px) and (max-width: 1440px)",
                 tablet: "(min-width: 501px) and (max-width: 1024px)",
                 mobile: "(max-width: 500px)",
             },
             (ctx) => {
-                // DESKTOP: simple seamless scroll (horizontal, unchanged)
                 if (ctx?.conditions?.desktop) {
-                    gsap.fromTo(
-                        carouselRef1New.current,
-                        { xPercent: 0 },
-                        {
-                            xPercent: -100,
-                            duration: 10,
-                            repeat: -1,
-                            ease: "none",
-                        }
+                    const track1 = carouselRef1New.current;
+                    const track2 = carouselRef2New.current;
+                    if (!track1 || !track2) return;
+
+                    const slides1 = gsap.utils.toArray<HTMLElement>(
+                        track1.querySelectorAll(".carousel_image_new")
+                    );
+                    const slides2 = gsap.utils.toArray<HTMLElement>(
+                        track2.querySelectorAll(".carousel_image_new")
                     );
 
-                    gsap.fromTo(
-                        carouselRef2New.current,
-                        { xPercent: 0 },
-                        {
-                            xPercent: -100,
-                            duration: 10,
-                            repeat: -1,
-                            ease: "none",
-                        }
-                    );
+                    if (!slides1.length || !slides2.length) return;
+
+                    // Reset to starting position
+                    gsap.set([track1, track2], { x: 0 });
+
+                    const tl = gsap.timeline({
+                        repeat: -1,
+                        defaults: { ease: "none" },
+                    });
+
+                    const outer = track1.parentElement as HTMLElement;
+                    const outerWidth = outer.getBoundingClientRect().width;
+                    const slideWidth = slides1[0]?.getBoundingClientRect().width || 0;
+                    const gap = 64; // 2rem from CSS
+
+                    // Cache positions relative to track origin (not offsetLeft)
+                    const positions: number[] = slides1.map((_, i) => {
+                        return i * (slideWidth + gap);
+                    });
+
+                    for (let index = 1; index < slides1.length; index++) {
+                        const img1 = slides1[index];
+                        const img2 = slides2[index];
+                        const slidePosition = positions[index];
+                        const slideCenter = slidePosition + slideWidth / 2;
+                        const targetX = outerWidth / 2 - slideCenter;
+
+                        tl.to([track1, track2], {
+                            x: targetX,
+                            duration: 1.5,
+                            ease: "power2.inOut",
+                        });
+
+                        tl.to({}, { duration: 0.4 });
+
+                        tl.to([img1, img2], {
+                            scale: 1.2,
+                            duration: 2,
+                            ease: "power2.out",
+                        });
+
+                        tl.to([img1, img2], {
+                            scale: 1,
+                            duration: 2,
+                            ease: "power2.in",
+                        });
+
+                        tl.to({}, { duration: 0.6 });
+                    }
                 }
 
                 if (ctx?.conditions?.tablet) {

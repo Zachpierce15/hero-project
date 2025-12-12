@@ -11,8 +11,8 @@ const InfoCardCouroselAndGetQuoteContainers = styled.div`
     border: 1px solid #CCDDC7;
 
     @media (max-width: 1440px) {
-        width: 40vw;
-        height: 600px;
+        width: 689px;
+        height: 328px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
@@ -43,9 +43,12 @@ const InfoCardCouroselContainer = styled.div`
     border: 1px solid #CCDDC7;
 
     @media (max-width: 1440px) {
-        width: 56vw;
-        height: 600px;
+        width: 687px;
+        height: 328px;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     @media (min-width: 501px) and (max-width: 1024px) {
@@ -67,6 +70,7 @@ const ContainerDiv = styled.div`
        display: flex;
         flex-direction: row-reverse;
         align-items: center;
+        justify-content: center;
         margin-top: 65px;
     }
 
@@ -87,6 +91,11 @@ const ContainerDiv = styled.div`
 
 const StyledParagraph = styled.p`
     color: #153E2A;
+
+    @media (max-width: 1440px) {
+        font-size: 24px;
+        margin: 23px;
+    }
 
     @media (min-width: 501px) and (max-width: 1024px) {
         font-size: 24px;
@@ -194,8 +203,6 @@ export const CardAndQuote = () => {
     };
 
     const handleClick = () => {
-        console.log("This is working");
-
         if (imgRef.current) {
             gsap.timeline()
 

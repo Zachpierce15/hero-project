@@ -10,29 +10,29 @@ import Image from 'next/image'
 import './style.css'
 
 const ImgContainerDiv = styled.div`
-            height: auto;
-            width: 16px;
-            flex: none;
-            margin: 0px 8px;
+    height: auto;
+    width: 16px;
+    flex: none;
+    margin: 0px 8px;
 `
 
 const ShrinkBoxContainer = styled.div`
-            display: flex;
-            align-items: center;
-            margin: 0px 20px;
-            justify-content: center;
+    display: flex;
+    align-items: center;
+    margin: 0px 20px;
+    justify-content: center;
 
-            @media ((min-width: 501px) and (max-width: 1024px)) {
-                margin: unset;
-            }
+    @media ((min-width: 501px) and (max-width: 1024px)) {
+        margin: unset;
+    }
 `
 
 
 const StyledSpan = styled.span`
-            display: flex;
-            flex: none;
-            font-size: 12px;
-            `
+    display: flex;
+    flex: none;
+    font-size: 12px;
+`
 
 gsap.registerPlugin(useGSAP)
 
@@ -45,7 +45,7 @@ export const CompaintsBanner = () => {
 
         mm.add(
             {
-                desktop: "(min-width: 1440px)",
+                desktop: "(min-width: 1025px) and (max-width: 1440px)",
                 tablet: "(min-width: 501px) and (max-width: 1024px)",
                 mobile: "(max-width: 500px)",
             },

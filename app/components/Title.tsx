@@ -10,53 +10,59 @@ import './style.css'
 gsap.registerPlugin(useGSAP)
 
 const StyledHeaderBeginning = styled.h1`
-display: flex;
-font-family: 'Sohne', sans-serif;
-weight: bold;
-spacing: -3%;
-line-height: 120%;
-font-size: 111px;
-width: 1418px;
+    display: flex;
+    font-family: 'Sohne', sans-serif;
+    weight: bold;
+    spacing: -3%;
+    line-height: 120%;
+    font-size: 111px;
+    width: 1418px;
 
-@media ((min-width: 501px) and (max-width: 1024px)) {
+    @media ((min-width: 1025px) and (max-width: 1439px)) {
         display: unset;
         text-align: center;
         width: unset;
-}
+    }
 
-  @media (max-width: 500px) {
-  display: unset;
+    @media ((min-width: 501px) and (max-width: 1024px)) {
+        display: unset;
+        text-align: center;
+        width: unset;
+    }
+
+    @media (max-width: 500px) {
+        display: unset;
         font-size: 48px;
         margin-bottom: 8px;
         text-align: center;
         width: unset;
-}
+    }
 `
 
 const StyledHeader = styled.h1`
-font-family: 'Sohne', sans-serif;
-weight: bold;
-spacing: -3%;
-line-height: 120%;
-font-size: 111px;
-width: fit-content;
-
-@media ((min-width: 1000px) and (max-width: 1024px)) {
-    text-align: center;
+    font-family: 'Sohne', sans-serif;
+    weight: bold;
+    spacing: -3%;
+    line-height: 120%;
+    font-size: 111px;
     width: fit-content;
-}
 
-@media((min-width: 501px) and (max-width: 999px)) {
-    width: unset;
-    text-align: center;
+    @media ((min-width: 1000px) and (max-width: 1024px)) {
+        text-align: center;
+        width: fit-content;
+    }
 
-}
+    @media((min-width: 501px) and (max-width: 999px)) {
+        width: unset;
+        text-align: center;
 
-@media (max-width: 500px) {
-    font-size: 48px;
-    text-align: center;
-    width: unset;
-}
+    }
+
+    @media (max-width: 500px) {
+        font-size: 48px;
+        text-align: center;
+        width: unset;
+    }
 `
 
 const StyledHeaderContainer = styled.div`
@@ -68,28 +74,32 @@ const StyledHeaderContainer = styled.div`
     `
 
 const StyledAnimationContainer = styled.div`
-        display: flex;
-        flex-direction: row;
+    display: flex;
+    flex-direction: row;
 
-        @media ((min-width: 501px) and (max-width: 613px)) {
-            flex-direction: column;
-        }
+    @media ((min-width: 1025px) and (max-width: 1378px)) {
+       justify-content: center
+    }
+
+    @media ((min-width: 501px) and (max-width: 613px)) {
+        flex-direction: column;
+    }
     `
 
 const StyledMiddleDiv = styled.div`
         
-@media ((min-width: 501px) and (max-width: 1024px)) {
-    text-align: center;
-    width: 100vw
-}
+    @media ((min-width: 501px) and (max-width: 1024px)) {
+        text-align: center;
+        width: 100vw
+    }
 
-@media ((min-width: 501px) and (max-width: 613px)) {
-display: flex;
-flex-direction: column;
-}
-@media (max-width: 500px) {
-    text-align: center;
-}
+    @media ((min-width: 501px) and (max-width: 613px)) {
+    display: flex;
+    flex-direction: column;
+    }
+    @media (max-width: 500px) {
+        text-align: center;
+    }
 `
 
 type Props = {
@@ -105,31 +115,59 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
 
         mm.add(
             {
-                desktop: "(min-width: 1440px)",
+                weirdSpot: "(min-width: 1025px) and (max-width: 1378px)",
+                desktop: "(min-width: 1025px) and (max-width: 1440px)",
                 tablet: "(min-width: 1000px) and (max-width: 1024px)",
                 mobile: "(max-width: 999px)",
             },
             (ctx) => {
 
                 if (ctx?.conditions?.desktop) {
-                    const tl = gsap.timeline();
-                    // 1440px+ animation (full shrink + slide)
-                    tl.to('#left', { x: '+=360', duration: 2.54, ease: 'power4.in', delay: 1 },
-                        0
-                    ).to('#right', { x: '-=275', duration: 2.54, ease: 'power4.in', delay: 1 },
-                        0
-                    );
+                    if (ctx?.conditions?.weirdSpot) {
+                        const tl = gsap.timeline();
 
-                    tl.to(["#left", "#right", '#other'],
-                        {
-                            color: '#00B684',
-                            duration: .4
+                        const leftEl = document.querySelector('#left') as HTMLElement;
+                        const rightEl = document.querySelector('#right') as HTMLElement;
+
+                        if (leftEl && rightEl) {
+
+                            const leftRect = leftEl.getBoundingClientRect();
+                            const rightRect = rightEl.getBoundingClientRect();
+
+
+                            const gap = rightRect.left - (leftRect.right);
+
+
+                            const moveDistance = Math.max(gap / 2 - 30, 0);
+
+                            tl.to('#left', { x: `+=${moveDistance}`, duration: 2.54, ease: 'power4.in', delay: 1 }, 0)
+                                .to('#right', { x: `-=${moveDistance}`, duration: 2.54, ease: 'power4.in', delay: 1 }, 0);
                         }
-                    )
+
+                        tl.to(["#left", "#right", '#other'],
+                            {
+                                color: '#00B684',
+                                duration: .4
+                            }
+                        )
+                    } else {
+                        const tl = gsap.timeline();
+                        tl.to('#left', { x: '+=360', duration: 2.54, ease: 'power4.in', delay: 1 },
+                            0
+                        ).to('#right', { x: '-=275', duration: 2.54, ease: 'power4.in', delay: 1 },
+                            0
+                        );
+
+                        tl.to(["#left", "#right", '#other'],
+                            {
+                                color: '#00B684',
+                                duration: .4
+                            }
+                        )
+                    }
                 }
 
                 if (ctx?.conditions?.tablet) {
-                    // 1025px - 1439px(smaller movement)
                     const tl = gsap.timeline();
                     tl.to('#left', { x: '+=185', duration: 2.54, ease: 'power4.in', delay: 1 },
                         0
@@ -146,7 +184,6 @@ export const Title = ({ isMobile: _isMobile }: Props) => {
                 }
 
                 if (ctx?.conditions?.mobile) {
-                    // 375px and below (simple fade)
                     const tl = gsap.timeline();
                     tl.to('#beginning-of-title-header', { y: '+=50', duration: 2.54, ease: 'power4.in', delay: 1 },
                         0
